@@ -19,10 +19,10 @@ def check_nifi_connection() -> Dict[str, str]:
     try:
         token = get_token()
         ### a random request, just to check
-        res = requests.get(f'{NIFI_API_BASE}/flow/about', headers={
+        response = requests.get(f'{NIFI_API_BASE}/flow/about', headers={
             "Authorization": f"Bearer {token}"
         }, verify=False)
-        res.raise_for_status()
+        response.raise_for_status()
         return {"status": "success"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
