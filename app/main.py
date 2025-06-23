@@ -3,11 +3,12 @@ from dotenv import load_dotenv
 load_dotenv()
 import logging
 from nifi.nifi_connector import is_connection_good, get_root_id, create_process_group, create_funnel
+logging.basicConfig(level=logging.INFO)
 
 
 if __name__ == '__main__':
     connection_status = is_connection_good()
-    if connection_status["success"] == "error":
+    if connection_status["succeeded"] is not True:
         logging.error(connection_status["message"])
         raise Exception(connection_status["message"])
 
