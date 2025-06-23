@@ -1,6 +1,6 @@
 import os
 import requests
-from dto import create_pg_payload, Request_Type
+from dto import create_pg_payload, Request_Type, Parameters_Type
 from typing import Dict
 
 NIFI_API_BASE = os.getenv("NIFI_API_BASE", "https://localhost:8443/nifi-api")
@@ -10,7 +10,20 @@ VERIFY = os.getenv("VERIFY", True)
 TOKEN = None
 
 # I know that recursion is usually bad practice, but here I think it's readable and better.
-def generic_request(method:Request_Type, url:str,*, json=None, data=None, params=None, retry_count=1) -> requests.models.Response:
+def generic_request(method:Request_Type, url:str="",*, json:Parameters_Type=None, data:Parameters_Type=None, params:Parameters_Type=None, retry_count=1) -> requests.models.Response:
+    """
+    a generic function for create request to nifi, using the constants TOKEN, VERIFY (if we want
+    secure requests or not, locally not), and trying again if you were unauthorized with another
+    token, recursively, as many times as you want, with field "retry_count"
+    :param method: the method for the request, of type :class:`Request_Type`
+    :param url: the end of the url to use initial empty
+    :param json: if you want to send json in body - An object of type Parameter_Type with unlimited (arbitrary) keys.
+    :param data: if you want to send file in body - An object of type Parameter_Type with unlimited (arbitrary) keys.
+    :param params: if you want to send with query params - An object of type Parameter_Type with unlimited (arbitrary) keys.
+    :param retry_count: how many times you want the function will try again with another token in
+    case of authentication failed, initially 1
+    :return: the response from the server
+    """
     global TOKEN
     response = requests.request(
         url=f"{NIFI_API_BASE}{url}",
