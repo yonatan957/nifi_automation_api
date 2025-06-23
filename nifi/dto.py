@@ -1,15 +1,20 @@
 from enum import Enum
-from typing import Dict, Any, Optional
-def create_pg_payload(name:str, x_position:float= 0.0, y_position:float= 0.0) -> json :
+from typing import Dict, Any, Optional, TypedDict
+Parameters_Type = Optional[Dict[str, any]]
+
+def create_pg_payload(name:str, x_position:float= 0.0, y_position:float= 0.0) -> Parameters_Type :
     return {
         "revision": {"version":0},
         "component": {
             "name": name,
-            "position": {x_position, y_position}
+            "position": {"x":x_position, "y":y_position}
         }
     }
 
-Parameters_Type = Optional[Dict[str, any]]
+
+class ConnectionResult(TypedDict):
+    success: bool
+    message: str
 
 class Request_Type(Enum):
     GET = "GET"

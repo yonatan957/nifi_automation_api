@@ -1,12 +1,13 @@
+import logging
 import os
 import requests
-from dto import create_pg_payload, Request_Type, Parameters_Type
+from nifi.dto import create_pg_payload, Request_Type, Parameters_Type, ConnectionResult
 from typing import Dict
 
 NIFI_API_BASE = os.getenv("NIFI_API_BASE", "https://localhost:8443/nifi-api")
 USER_NAME = os.getenv("USER_NAME")
 PASSWORD = os.getenv("PASSWORD")
-VERIFY = os.getenv("VERIFY", True)
+VERIFY = os.getenv("VERIFY", True).lower() == "true"
 TOKEN = None
 
 # I know that recursion is usually bad practice, but here I think it's readable and better.
@@ -49,16 +50,20 @@ def get_token() -> str:
     }, verify=VERIFY)
     if res.status_code not in [200, 201]:
         raise Exception(f"Failed to get token: {res.status_code} {res.text}")
-    return res.text.strip()
+    token = res.text.strip()
+    return token
 
-def check_nifi_connection() -> Dict[str, str]:
+def is_connection_good() -> ConnectionResult:
+    """
+    :return: :class:`ConnectionResult`
+    """
     try:
         ### a random request, just to check
         response = generic_request(Request_Type.GET, "/flow/about")
         response.raise_for_status()
-        return {"status": "success"}
+        return {"success": True, "message":"Connection is good"}
     except Exception as e:
-        return {"status": "error", "message": str(e)}
+        return {"success": False, "message":str(e)}
 
 def get_root_id() -> str:
     response = generic_request(Request_Type.GET, "/flow/process-groups/root")
@@ -67,18 +72,22 @@ def get_root_id() -> str:
     root_pg = response.json()
     return root_pg["processGroupFlow"]["id"]
 
-def create_first_process_group(name:str) -> str:
-    root_pg_id = get_root_id()
-    response = generic_request(
-         Request_Type.POST,
-         f"/process-groups/{root_pg_id}/process-groups",
-         json=create_pg_payload(name)
-    )
-    if response.status_code != 200:
-        raise Exception("failed to create process-group")
+def create_process_group(name:str, father_id:str) -> str:
+    try:
+        response = generic_request(
+            Request_Type.POST,
+            f"/process-groups/{father_id}/process-groups",
+            json=create_pg_payload(name)
+        )
+        if response.status_code != 200:
+            raise Exception("failed to create process-group")
 
-    new_process_group = response.json()
-    return new_process_group["id"]
+        new_process_group = response.json()
+        return new_process_group["id"]
+    except Exception as e:
+        logging.error("error at create_process_group")
+        logging.error(e)
+        raise e
 
 def create_funnel(process_group_id: str) -> str:
     response = generic_request(
