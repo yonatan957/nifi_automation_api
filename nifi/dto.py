@@ -11,9 +11,15 @@ def create_pg_payload(name:str, x_position:float= 0.0, y_position:float= 0.0) ->
         }
     }
 
-
+def create_funnel_payload() -> Parameters_Type:
+    return {
+        "revision":{"version":0},
+        "component": {
+            "position": {"x":0.0, "y":0.0}
+        }
+    }
 class ConnectionResult(TypedDict):
-    success: bool
+    succeeded: bool
     message: str
 
 class Request_Type(Enum):
