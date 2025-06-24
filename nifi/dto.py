@@ -1,8 +1,9 @@
 from enum import Enum
 from typing import Dict, Any, Optional, TypedDict
-Parameters_Type = Optional[Dict[str, any]]
 
-def create_pg_payload(name:str, x_position:float= 0.0, y_position:float= 0.0) -> Parameters_Type :
+GenericDict = Optional[Dict[str, any]]
+
+def create_pg_payload(name:str, x_position:float= 0.0, y_position:float= 0.0) -> GenericDict :
     return {
         "revision": {"version":0},
         "component": {
@@ -11,7 +12,7 @@ def create_pg_payload(name:str, x_position:float= 0.0, y_position:float= 0.0) ->
         }
     }
 
-def create_funnel_payload() -> Parameters_Type:
+def create_funnel_payload() -> GenericDict:
     return {
         "revision":{"version":0},
         "component": {

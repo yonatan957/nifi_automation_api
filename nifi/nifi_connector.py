@@ -1,7 +1,7 @@
 import logging
 import os
 import requests
-from nifi.dto import create_pg_payload, Request_Type, Parameters_Type, ConnectionResult, create_funnel_payload
+from nifi.dto import create_pg_payload, Request_Type, GenericDict, ConnectionResult, create_funnel_payload
 from typing import Dict
 
 NIFI_API_BASE = os.getenv("NIFI_API_BASE", "https://localhost:8443/nifi-api")
@@ -11,7 +11,7 @@ VERIFY = os.getenv("VERIFY", True).lower() == "true"
 TOKEN = None
 
 # I know that recursion is usually bad practice, but here I think it's readable and better.
-def generic_request(method:Request_Type, url:str="",*, json:Parameters_Type=None, data:Parameters_Type=None, params:Parameters_Type=None, retry_count=1) -> requests.models.Response:
+def generic_request(method:Request_Type, url:str="", *, json:GenericDict=None, data:GenericDict=None, params:GenericDict=None, retry_count=1) -> requests.models.Response:
     """
     a generic function for create request to nifi, using the constants TOKEN, VERIFY (if we want
     secure requests or not, locally not), and trying again if you were unauthorized with another
