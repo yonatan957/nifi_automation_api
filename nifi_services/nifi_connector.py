@@ -1,7 +1,7 @@
 import requests
 from typing import Dict
 from nifi_objects.process_group import ProcessGroup
-from nifi_services.dto import create_pg_payload, Request_Type, GenericDict, ConnectionResult, create_funnel_payload
+from nifi_services.types import create_pg_payload, Request_Type, GenericDict, ConnectionResult, create_funnel_payload
 from nifi_services.utils import nifi_request, get_token
 from utils.logger import logger
 

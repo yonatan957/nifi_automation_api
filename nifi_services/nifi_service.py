@@ -2,7 +2,7 @@ import requests
 from typing import Set
 from utils.logger import logger
 from requests import Response
-from nifi_services.dto import Request_Type, GenericDict
+from nifi_services.types import Request_Type, GenericDict
 
 class NifiService:
     def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
