@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class Process_Group(BaseModel):
+class ProcessGroup(BaseModel):
     class Revision(BaseModel):
         version: int
 
