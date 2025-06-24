@@ -1,6 +1,7 @@
 import requests
 from nifi_services.dto import Request_Type, GenericDict
 from utils.consts import NIFI_API_URL, NIFI_USER_NAME, PASSWORD, SHOULD_VERIFY_SSL
+
 TOKEN = None
 
 # I know that recursion is usually bad practice, but here I think it's readable and better.

@@ -1,9 +1,9 @@
-import logging
 import requests
 from typing import Dict
 from nifi_objects.process_group import Process_Group
 from nifi_services.dto import create_pg_payload, Request_Type, GenericDict, ConnectionResult, create_funnel_payload
 from nifi_services.utils import nifi_request, get_token
+from utils.logger import logger
 
 
 def is_nifi_connection_alive() -> ConnectionResult:
@@ -16,7 +16,7 @@ def is_nifi_connection_alive() -> ConnectionResult:
         response.raise_for_status()
         return {"succeeded": True, "message":"Connection is good"}
     except Exception as e:
-        logging.error(str(e))
+        logger.error(str(e))
         raise e
 
 def get_root_id() -> str:
