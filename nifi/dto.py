@@ -1,0 +1,30 @@
+from enum import Enum
+from typing import Dict, Any, Optional, TypedDict
+
+GenericDict = Optional[Dict[str, any]]
+
+def create_pg_payload(name:str, x_position:float= 400.0, y_position:float= 200.0) -> GenericDict :
+    return {
+        "revision": {"version":0},
+        "component": {
+            "name": name,
+            "position": {"x":x_position, "y":y_position}
+        }
+    }
+
+def create_funnel_payload() -> GenericDict:
+    return {
+        "revision":{"version":0},
+        "component": {
+            "position": {"x":400.0, "y":200.0}
+        }
+    }
+class ConnectionResult(TypedDict):
+    succeeded: bool
+    message: str
+
+class Request_Type(Enum):
+    GET = "GET"
+    POST = "POST"
+    DELETE = "DELETE"
+    PUT = "PUT"
