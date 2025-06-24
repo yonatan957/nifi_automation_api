@@ -1,6 +1,6 @@
 import requests
 from nifi_services.dto import Request_Type, GenericDict
-from utils.consts import NIFI_API_BASE, USER_NAME, PASSWORD, VERIFY
+from utils.consts import NIFI_API_BASE, USER_NAME, PASSWORD, SHOULD_VERIFY_SSL
 TOKEN = None
 
 # I know that recursion is usually bad practice, but here I think it's readable and better.
@@ -22,7 +22,7 @@ def generic_request(method:Request_Type, url:str="", *, json:GenericDict=None, d
     response = requests.request(
         url=f"{NIFI_API_BASE}{url}",
         method=method.value,
-        verify=VERIFY,
+        verify=SHOULD_VERIFY_SSL,
         headers={
             "Authorization": f"Bearer {TOKEN}"
         },
@@ -41,7 +41,7 @@ def get_token() -> str:
     response = requests.post(f'{NIFI_API_BASE}/access/token', data={
         "username": USER_NAME,
         "password": PASSWORD
-    }, verify=VERIFY)
+    }, verify=SHOULD_VERIFY_SSL)
     if response.status_code not in [200, 201]:
         raise Exception(f"Failed to get token: {response.status_code} {response.text}")
     token = response.text.strip()
