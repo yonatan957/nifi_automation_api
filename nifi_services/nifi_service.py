@@ -3,6 +3,9 @@ from typing import Set
 from utils.logger import logger
 from requests import Response
 from nifi_services.types import Request_Type, GenericDict
+from nifi_services.handlers.process_group_handler import ProcessGroupHandler
+from nifi_services.handlers.funnel_handler import FunnelHandler
+from nifi_services.handlers.diagnostics_handler import DiagnosticsHandler
 
 class NifiService:
     def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
@@ -11,6 +14,10 @@ class NifiService:
         self.password = password
         self.verify_ssl = verify_ssl
         self.token = self._get_token()
+
+        self.process_group_handler = ProcessGroupHandler(self.nifi_request, self.validate_response_status)
+        self.diagnostics_handler = DiagnosticsHandler(self.nifi_request, self.validate_response_status)
+        self.funnel_handler = FunnelHandler(self.nifi_request, self.validate_response_status)
 
     def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message:str) -> None:
         if response.status_code not in valid_statuses:
@@ -50,3 +57,18 @@ class NifiService:
             self.token = self._get_token()
             return self.nifi_request(method, url, json=json, data=data, params=params, retry_count=retry_count - 1)
         return res
+
+    def is_nifi_connection_alive(self):
+        return self.diagnostics_handler.is_nifi_connection_alive()
+
+    def get_root_id(self):
+        return self.process_group_handler.get_root_id()
+
+    def create_process_group(self, name:str, father_id:str):
+        return self.process_group_handler.create_process_group(name, father_id)
+
+    def get_process_group(self, pg_id:str):
+        return self.process_group_handler.get_process_group(pg_id)
+
+    def create_funnel(self, process_group_id:str):
+        return self.funnel_handler.create_funnel(process_group_id)
