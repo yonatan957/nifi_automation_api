@@ -3,7 +3,7 @@ import requests
 from typing import Dict
 from nifi_objects.process_group import Process_Group
 from nifi_services.dto import create_pg_payload, Request_Type, GenericDict, ConnectionResult, create_funnel_payload
-from nifi_services.utils import generic_request, get_token
+from nifi_services.utils import nifi_request, get_token
 
 
 def is_nifi_connection_alive() -> ConnectionResult:
@@ -12,7 +12,7 @@ def is_nifi_connection_alive() -> ConnectionResult:
     """
     try:
         ### a random request, just to check
-        response = generic_request(Request_Type.GET, "/flow/about")
+        response = nifi_request(Request_Type.GET, "/flow/about")
         response.raise_for_status()
         return {"succeeded": True, "message":"Connection is good"}
     except Exception as e:
@@ -20,7 +20,7 @@ def is_nifi_connection_alive() -> ConnectionResult:
         raise e
 
 def get_root_id() -> str:
-    response = generic_request(Request_Type.GET, "/flow/process-groups/root")
+    response = nifi_request(Request_Type.GET, "/flow/process-groups/root")
     if response.status_code != 200:
         raise Exception(f"failed to get root id: {response.status_code} {response.text}")
     root_pg = response.json()
@@ -28,7 +28,7 @@ def get_root_id() -> str:
 
 def create_process_group(name:str, father_id:str) -> str:
     try:
-        response = generic_request(
+        response = nifi_request(
             Request_Type.POST,
             f"/process-groups/{father_id}/process-groups",
             json=create_pg_payload(name)
@@ -43,7 +43,7 @@ def create_process_group(name:str, father_id:str) -> str:
         raise e
 
 def create_funnel(process_group_id: str) -> str:
-    response = generic_request(
+    response = nifi_request(
         Request_Type.POST,
         f"/process-groups/{process_group_id}/funnels",
         json=create_funnel_payload()
@@ -56,7 +56,7 @@ def create_funnel(process_group_id: str) -> str:
 
 def get_process_group(pg_id: str) -> Process_Group:
     try:
-        response = generic_request(Request_Type.GET, f"/process-groups/{pg_id}")
+        response = nifi_request(Request_Type.GET, f"/process-groups/{pg_id}")
         process_group = Process_Group(**response.json())
         return process_group
     except Exception as e:

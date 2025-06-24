@@ -4,7 +4,7 @@ from utils.consts import NIFI_API_URL, NIFI_USER_NAME, PASSWORD, SHOULD_VERIFY_S
 TOKEN = None
 
 # I know that recursion is usually bad practice, but here I think it's readable and better.
-def generic_request(method:Request_Type, url:str="", *, json:GenericDict=None, data:GenericDict=None, params:GenericDict=None, retry_count=1) -> requests.models.Response:
+def nifi_request(method:Request_Type, url:str= "", *, json:GenericDict=None, data:GenericDict=None, params:GenericDict=None, retry_count=1) -> requests.models.Response:
     """
     a generic function for create request to nifi_services, using the constants TOKEN, VERIFY (if we want
     secure requests or not, locally not), and trying again if you were unauthorized with another
@@ -33,7 +33,7 @@ def generic_request(method:Request_Type, url:str="", *, json:GenericDict=None, d
     ### if the request is unauthorized, try again with new token, decrease the retry_count by one
     if response.status_code == 401 and retry_count > 0:
         TOKEN = get_token()
-        return generic_request(method, url, json=json, data=data, params=params, retry_count=retry_count-1)
+        return nifi_request(method, url, json=json, data=data, params=params, retry_count=retry_count - 1)
     return response
 
 
