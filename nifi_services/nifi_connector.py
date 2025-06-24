@@ -1,11 +1,9 @@
 import logging
-import os
 import requests
 from typing import Dict
 from nifi_objects.process_group import Process_Group
 from nifi_services.dto import create_pg_payload, Request_Type, GenericDict, ConnectionResult, create_funnel_payload
 from nifi_services.utils import generic_request, get_token
-
 
 
 def is_connection_good() -> ConnectionResult:

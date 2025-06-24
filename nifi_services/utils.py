@@ -1,11 +1,6 @@
-import os
 import requests
 from nifi_services.dto import Request_Type, GenericDict
-
-NIFI_API_BASE = os.getenv("NIFI_API_BASE", "https://localhost:8443/nifi-api")
-USER_NAME = os.getenv("USER_NAME")
-PASSWORD = os.getenv("PASSWORD")
-VERIFY = os.getenv("VERIFY", True).lower() == "true"
+from utils.consts import NIFI_API_BASE, USER_NAME, PASSWORD, VERIFY
 TOKEN = None
 
 # I know that recursion is usually bad practice, but here I think it's readable and better.
