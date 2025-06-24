@@ -37,7 +37,7 @@ def generic_request(method:Request_Type, url:str="", *, json:GenericDict=None, d
         data=data,
         params=params
     )
-    ### if the request is unauthorized, try again with new token, decrease the retry_count by one
+    # if the request is unauthorized, try again with new token, decrease the retry_count by one
     if response.status_code == 401 and retry_count > 0:
         TOKEN = get_token()
         return generic_request(method, url, json=json, data=data, params=params, retry_count=retry_count-1)
@@ -99,3 +99,4 @@ def create_funnel(process_group_id: str) -> str:
 
     new_funnel = response.json()
     return new_funnel["id"]
+
