@@ -1,12 +1,11 @@
 from pydantic import BaseModel
 
-class Process_Group(BaseModel):
-    revision: Revision
-    id: str
-    component: Component
-
 class Revision(BaseModel):
     version: int
+
+class Position(BaseModel):
+    x: float
+    y: float
 
 class Component(BaseModel):
     id: str
@@ -14,6 +13,7 @@ class Component(BaseModel):
     comments: str
     position: Position
 
-class Position(BaseModel):
-    x: float
-    y: float
+class Process_Group(BaseModel):
+    revision: Revision
+    id: str
+    component: Component
