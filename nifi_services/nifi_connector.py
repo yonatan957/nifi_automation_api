@@ -6,7 +6,7 @@ from nifi_services.dto import create_pg_payload, Request_Type, GenericDict, Conn
 from nifi_services.utils import generic_request, get_token
 
 
-def is_connection_good() -> ConnectionResult:
+def is_nifi_connection_alive() -> ConnectionResult:
     """
     :return: :class:`ConnectionResult`
     """
@@ -16,7 +16,8 @@ def is_connection_good() -> ConnectionResult:
         response.raise_for_status()
         return {"succeeded": True, "message":"Connection is good"}
     except Exception as e:
-        return {"succeeded": False, "message":str(e)}
+        logging.error(str(e))
+        raise e
 
 def get_root_id() -> str:
     response = generic_request(Request_Type.GET, "/flow/process-groups/root")

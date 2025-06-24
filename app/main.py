@@ -1,6 +1,6 @@
 import logging
 from nifi_services.nifi_connector import (
-    is_connection_good,
+    is_nifi_connection_alive,
     get_root_id,
     create_process_group,
     create_funnel,
@@ -9,10 +9,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 if __name__ == '__main__':
-    connection_status = is_connection_good()
-    if connection_status["succeeded"] is not True:
-        logging.error(connection_status["message"])
-        raise Exception(connection_status["message"])
+    connection_status = is_nifi_connection_alive()
 
     try:
         root_id = get_root_id()
