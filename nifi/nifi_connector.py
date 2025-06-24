@@ -1,10 +1,12 @@
 import logging
 import os
 import requests
-from nifi.dto import create_pg_payload, Request_Type, GenericDict, ConnectionResult, create_funnel_payload
 from typing import Dict
-
+from nifi_objects.process_group import Process_Group
+from nifi.dto import create_pg_payload, Request_Type, GenericDict, ConnectionResult, create_funnel_payload
 from nifi.utils import generic_request, get_token
+
+
 
 def is_connection_good() -> ConnectionResult:
     """
@@ -52,3 +54,11 @@ def create_funnel(process_group_id: str) -> str:
 
     new_funnel = response.json()
     return new_funnel["id"]
+
+def get_process_group(pg_id: str) -> Process_Group:
+    try:
+        response = generic_request(Request_Type.GET, f"/process-groups/{pg_id}")
+        process_group = Process_Group(**response.json())
+        return process_group
+    except Exception as e:
+        raise Exception(f"failed to get process-group: {str(e)}")
