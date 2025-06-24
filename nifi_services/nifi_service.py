@@ -1,5 +1,5 @@
 import requests
-from typing import Set
+from typing import Set, Optional
 from utils.logger import logger
 from requests import Response
 from nifi_services.types import Request_Type, GenericDict

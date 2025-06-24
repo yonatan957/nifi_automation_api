@@ -1,4 +1,5 @@
 from nifi_objects.process_group import ProcessGroup
+from nifi_services.types import GenericDict, Request_Type
 class ProcessGroupHandler:
 
     def __init__(self, nifi_request, validate_response_status):
