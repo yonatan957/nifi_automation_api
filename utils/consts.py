@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-NIFI_API_BASE = os.getenv("NIFI_API_BASE", "https://localhost:8443/nifi-api")
+NIFI_API_URL = os.getenv("NIFI_API_URL", "https://localhost:8443/nifi-api")
 USER_NAME = os.getenv("USER_NAME")
 PASSWORD = os.getenv("PASSWORD")
 # Whether to verify the SSL certificate when making HTTP requests.
