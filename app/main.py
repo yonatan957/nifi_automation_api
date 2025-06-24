@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 ### I have to load the env before importing the rest of the modules.
 load_dotenv()
 import logging
-from nifi.nifi_connector import (
+from nifi_services.nifi_connector import (
     is_connection_good,
     get_root_id,
     create_process_group,

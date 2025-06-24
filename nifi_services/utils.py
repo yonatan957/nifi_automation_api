@@ -1,6 +1,6 @@
 import os
 import requests
-from nifi.dto import Request_Type, GenericDict
+from nifi_services.dto import Request_Type, GenericDict
 
 NIFI_API_BASE = os.getenv("NIFI_API_BASE", "https://localhost:8443/nifi-api")
 USER_NAME = os.getenv("USER_NAME")
@@ -11,7 +11,7 @@ TOKEN = None
 # I know that recursion is usually bad practice, but here I think it's readable and better.
 def generic_request(method:Request_Type, url:str="", *, json:GenericDict=None, data:GenericDict=None, params:GenericDict=None, retry_count=1) -> requests.models.Response:
     """
-    a generic function for create request to nifi, using the constants TOKEN, VERIFY (if we want
+    a generic function for create request to nifi_services, using the constants TOKEN, VERIFY (if we want
     secure requests or not, locally not), and trying again if you were unauthorized with another
     token, recursively, as many times as you want, with field "retry_count"
     :param method: the method for the request, of type :class:`Request_Type`
