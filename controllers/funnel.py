@@ -6,3 +6,5 @@ funnel_bp = Blueprint('funnels', __name__, url_prefix='/funnels')
 def create_funnel():
     json_body = request.get_json()
     nifi_service = current_app.config['nifi_service']
+    new_funnel = nifi_service.create_funnel(json_body["father_id"])
+    return jsonify(new_funnel.dict())
