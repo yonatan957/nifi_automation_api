@@ -2,8 +2,10 @@ from nifi_services.nifi_service import NifiService
 from flask import Flask
 from utils.logger import logger
 from utils.consts import NIFI_API_URL, NIFI_USER_NAME, SHOULD_VERIFY_SSL, NIFI_PASSWORD
+from error.error_handler import register_error_handlers
 
 app = Flask(__name__)
+register_error_handlers(app)
 app.config["nifi_service"] = NifiService(NIFI_API_URL, NIFI_USER_NAME, NIFI_PASSWORD, SHOULD_VERIFY_SSL)
 
 if __name__ == '__main__':
