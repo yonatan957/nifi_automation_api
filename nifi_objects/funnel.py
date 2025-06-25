@@ -1,12 +1,7 @@
 from pydantic import BaseModel
+from nifi_objects.general_objects import Revision, Position
 
 class Funnel(BaseModel):
-    class Revision(BaseModel):
-        version: int
-
-    class Position(BaseModel):
-        x: int
-        y: int
 
     id: str
     position: Position

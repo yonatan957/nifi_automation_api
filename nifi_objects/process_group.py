@@ -1,14 +1,7 @@
 from pydantic import BaseModel
-
+from nifi_objects.general_objects import Revision, Position
 class ProcessGroup(BaseModel):
-    class Revision(BaseModel):
-        version: int
-
     class Component(BaseModel):
-        class Position(BaseModel):
-            x: float
-            y: float
-
         id: str
         name: str
         comments: str
