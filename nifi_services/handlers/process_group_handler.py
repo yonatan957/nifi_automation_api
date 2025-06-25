@@ -26,6 +26,11 @@ class ProcessGroupHandler:
         self.validate_response_status(response, {200}, "failed to get process group")
         return ProcessGroup(**response.json())
 
+    def update_process_group(self, process_group, father_id):
+        response = self.nifi_request(Request_Type.PUT, f'/process-groups/{father_id}', json=process_group)
+        self.validate_response_status(response, {200}, 'failed to update process group')
+        return ProcessGroup(**response.json())
+
     def create_pg_payload(self, name: str, x_position: float = 400.0, y_position: float = 200.0) -> GenericDict:
         return {
             "revision": {"version": 0},

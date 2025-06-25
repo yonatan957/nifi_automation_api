@@ -75,6 +75,9 @@ class NifiService:
     def create_process_group(self, name:str, father_id:str):
         return self.process_group_handler.create_process_group(name, father_id)
 
+    def update_process_group(self, process_group, father_id):
+        return self.process_group_handler.update_process_group(process_group, father_id)
+
     def get_process_group(self, pg_id:str):
         return self.process_group_handler.get_process_group(pg_id)
 
