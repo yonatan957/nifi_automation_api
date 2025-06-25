@@ -13,11 +13,11 @@ def get_root_id():
     nifi_service = current_app.config['nifi_service']
     return jsonify({"id": nifi_service.get_root_id()})
 
-@process_group_bp.route("/", methods=["POST"])
-def create_process_group():
-    json_data = request.get_json()
+@process_group_bp.route("/<father_id>", methods=["POST"])
+def create_process_group(father_id: str):
+    process_group_json = request.get_json()
     nifi_service = current_app.config['nifi_service']
-    new_process_group = nifi_service.create_process_group(json_data["name"], json_data["father_id"])
+    new_process_group = nifi_service.create_process_group(process_group_json, father_id)
     return jsonify(new_process_group.dict())
 
 @process_group_bp.route('/<father_id>', methods=['PUT'])

@@ -12,11 +12,11 @@ class ProcessGroupHandler:
         root_pg = response.json()
         return root_pg["processGroupFlow"]["id"]
 
-    def create_process_group(self, name: str, father_id: str) -> ProcessGroup:
+    def create_process_group(self, process_group:GenericDict, father_id: str) -> ProcessGroup:
         response = self.nifi_request(
             Request_Type.POST,
             f"/process-groups/{father_id}/process-groups",
-            json=self.create_pg_payload(name)
+            json=process_group
         )
         self.validate_response_status(response, {200, 201}, "failed to create process group")
         return ProcessGroup(**response.json())
@@ -30,12 +30,3 @@ class ProcessGroupHandler:
         response = self.nifi_request(Request_Type.PUT, f'/process-groups/{father_id}', json=process_group)
         self.validate_response_status(response, {200}, 'failed to update process group')
         return ProcessGroup(**response.json())
-
-    def create_pg_payload(self, name: str, x_position: float = 400.0, y_position: float = 200.0) -> GenericDict:
-        return {
-            "revision": {"version": 0},
-            "component": {
-                "name": name,
-                "position": {"x": x_position, "y": y_position}
-            }
-        }
