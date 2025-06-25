@@ -14,13 +14,13 @@ class NifiService:
         self.username = username
         self.password = password
         self.verify_ssl = verify_ssl
-        self.token = self._get_token()
+        self.token = None
 
         self.process_group_handler = ProcessGroupHandler(self.nifi_request, self.validate_response_status)
         self.diagnostics_handler = DiagnosticsHandler(self.nifi_request, self.validate_response_status)
         self.funnel_handler = FunnelHandler(self.nifi_request, self.validate_response_status)
 
-    def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message: str) -> None:
+    def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message: str, status_error = None) -> None:
         if response.status_code not in valid_statuses:
             full_message = (
                 f"{error_message}\n"
@@ -28,17 +28,16 @@ class NifiService:
                 f"Response Text: {response.text}"
             ).strip()
             logger.error(full_message)
-
-            if response.status_code == 404:
+            status_error = status_error if status_error else response.status_code
+            if status_error == 404:
                 raise NotFoundError(full_message)
-            elif response.status_code == 400:
+            elif status_error == 400:
                 raise BadRequestError(full_message)
             else:
                 raise APIError(full_message, status_code=response.status_code)
 
     def _get_token(self) -> str:
         response = requests.post(f'{self.base_url}/access/token', data={"username": self.username, "password": self.password}, verify=self.verify_ssl)
-        self.validate_response_status(response, {200,201}, "failed to get token")
         return response.text.strip()
 
     # I know that recursion is usually bad practice, but here I think it's readable and better.

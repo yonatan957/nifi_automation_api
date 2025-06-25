@@ -3,17 +3,12 @@ from flask import Flask
 from utils.logger import logger
 from utils.consts import NIFI_API_URL, NIFI_USER_NAME, SHOULD_VERIFY_SSL, NIFI_PASSWORD
 from error.error_handler import register_error_handlers
+from controllers.process_group import process_group_bp
 
 app = Flask(__name__)
 register_error_handlers(app)
 app.config["nifi_service"] = NifiService(NIFI_API_URL, NIFI_USER_NAME, NIFI_PASSWORD, SHOULD_VERIFY_SSL)
 
+app.register_blueprint(process_group_bp)
 if __name__ == '__main__':
     app.run(debug=True)
-    try:
-        nifi_service = NifiService(NIFI_API_URL, NIFI_USER_NAME, NIFI_PASSWORD, SHOULD_VERIFY_SSL)
-        root_id = nifi_service.get_root_id()
-        process_group = nifi_service.create_process_group("new_process_group", root_id)
-        funnel_id = nifi_service.create_funnel(process_group.id)
-    except Exception as e:
-        logger.error(e)
