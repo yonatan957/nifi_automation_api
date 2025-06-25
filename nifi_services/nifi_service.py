@@ -6,6 +6,7 @@ from nifi_services.types import Request_Type, GenericDict
 from nifi_services.handlers.process_group_handler import ProcessGroupHandler
 from nifi_services.handlers.funnel_handler import FunnelHandler
 from nifi_services.handlers.diagnostics_handler import DiagnosticsHandler
+from error.errors import UnauthorizedError, BadRequestError, APIError, NotFoundError
 
 class NifiService:
     def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
@@ -19,7 +20,7 @@ class NifiService:
         self.diagnostics_handler = DiagnosticsHandler(self.nifi_request, self.validate_response_status)
         self.funnel_handler = FunnelHandler(self.nifi_request, self.validate_response_status)
 
-    def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message:str) -> None:
+    def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message: str) -> None:
         if response.status_code not in valid_statuses:
             full_message = (
                 f"{error_message}\n"
@@ -27,7 +28,13 @@ class NifiService:
                 f"Response Text: {response.text}"
             ).strip()
             logger.error(full_message)
-            raise Exception(full_message)
+
+            if response.status_code == 404:
+                raise NotFoundError(full_message)
+            elif response.status_code == 400:
+                raise BadRequestError(full_message)
+            else:
+                raise APIError(full_message, status_code=response.status_code)
 
     def _get_token(self) -> str:
         response = requests.post(f'{self.base_url}/access/token', data={"username": self.username, "password": self.password}, verify=self.verify_ssl)
@@ -53,7 +60,9 @@ class NifiService:
         """
         res = requests.request(method=method.value, url=f"{self.base_url}{url}", verify=self.verify_ssl,
                                headers={"Authorization": f"Bearer {self.token}"}, json=json, data=data, params=params)
-        if res.status_code == 401 and retry_count > 0:
+        if res.status_code == 401:
+            if retry_count <= 0:
+                raise UnauthorizedError('Unauthorized - check username and password')
             self.token = self._get_token()
             return self.nifi_request(method, url, json=json, data=data, params=params, retry_count=retry_count - 1)
         return res
