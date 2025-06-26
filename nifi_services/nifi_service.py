@@ -6,6 +6,7 @@ from nifi_services.types import Request_Type, GenericDict
 from nifi_services.handlers.process_group_handler import ProcessGroupHandler
 from nifi_services.handlers.funnel_handler import FunnelHandler
 from nifi_services.handlers.diagnostics_handler import DiagnosticsHandler
+from nifi_services.handlers.ports_handler import PortsHandler
 from error.errors import UnauthorizedError, BadRequestError, APIError, NotFoundError
 
 class NifiService:
@@ -19,6 +20,7 @@ class NifiService:
         self.process_group_handler = ProcessGroupHandler(self.nifi_request, self.validate_response_status)
         self.diagnostics_handler = DiagnosticsHandler(self.nifi_request, self.validate_response_status)
         self.funnel_handler = FunnelHandler(self.nifi_request, self.validate_response_status)
+        self.ports_handler = PortsHandler(self.nifi_request, self.validate_response_status)
 
     def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message: str, status_error = None) -> None:
         if response.status_code not in valid_statuses:
@@ -83,3 +85,6 @@ class NifiService:
 
     def create_funnel(self, process_group_id:str):
         return self.funnel_handler.create_funnel(process_group_id)
+
+    def create_input_port(self, father_id:str, input_port):
+        return self.ports_handler.create_input_port(father_id, input_port)

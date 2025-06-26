@@ -1,8 +1,10 @@
 from nifi_objects.process_group import ProcessGroup
 from nifi_services.types import GenericDict, Request_Type
+
+type = Callable[[int, Optional[int]],str]
 class ProcessGroupHandler:
 
-    def __init__(self, nifi_request, validate_response_status):
+    def __init__(self, nifi_request:type, validate_response_status):
         self.nifi_request = nifi_request
         self.validate_response_status = validate_response_status
 

@@ -1,4 +1,3 @@
-from nifi_services.types import GenericDict
 from nifi_services.types import GenericDict, Request_Type
 from nifi_objects.funnel import Funnel
 class FunnelHandler:

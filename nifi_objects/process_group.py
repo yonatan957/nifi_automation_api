@@ -1,12 +1,13 @@
 from pydantic import BaseModel
+from typing import Optional
 from nifi_objects.general_objects import Revision, Position
 class ProcessGroup(BaseModel):
     class Component(BaseModel):
-        id: str
-        name: str
-        comments: str
-        position: Position
+        id: Optional[str]
+        name: Optional[str]
+        comments: Optional[str]
+        position: Optional[str]
 
-    revision: Revision
-    id: str
-    component: Component
+    revision: Optional[Revision]
+    id: Optional[str]
+    component: Optional[Component]
