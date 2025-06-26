@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from nifi_services.types import ConnectableType
 class Position(BaseModel):
     x: Optional[float] = None
@@ -40,14 +40,24 @@ class OutPutPort(Port):
 class ProcessGroup(NifiObject):
     pass
 
+class RemoteProcessGroup(NifiObject):
+    pass
+
 class Connection(NifiObject):
     class ConnectionComponent(Component):
         source: Optional[Connectable] = None
         destination: Optional[Connectable] = None
+
+        selectedRelationships: List[str] = ["success"]
+        backPressureObjectThreshold: int = 10000
+        backPressureDataSizeThreshold: str = "1 GB"
+        flowFileExpiration: str = "0 sec"
+        bends: List = []
+        prioritizers: List[str] = []
+
     component: Optional[ConnectionComponent] = None
 
 class ProcessGroupWithPorts(BaseModel):
     process_group: ProcessGroup
     input_port: InputPort
     output_port: OutPutPort
-
