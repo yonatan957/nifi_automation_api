@@ -1,15 +1,16 @@
 from nifi_services.types import GenericDict, Request_Type
-
+from nifi_objects.ports import Port, InputPort, OutPUtPort
 class PortsHandler:
     def __init__(self, nifi_request, validate_response_status):
         self.nifi_request = nifi_request
         self.validate_response_status = validate_response_status
 
-    def create_input_port(self, father_id:str, input_port:GenericDict):
+    def create_port(self, port: Port, father_id: str):
+        end_of_url = 'input-ports' if isinstance(port, InputPort) else 'output-ports'
         response = self.nifi_request(
             Request_Type.POST,
-            f"/process-groups/{father_id}/input-ports",
-            json=input_port)
+            f"/process-groups/{father_id}/{end_of_url}",
+            json=port)
 
-        self.validate_response_status(response, {200}, 'failed to create input port')
-        return input_port
+        self.validate_response_status(response, {200}, 'failed to create port')
+        return response.json()
