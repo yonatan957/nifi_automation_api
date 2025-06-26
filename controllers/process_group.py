@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify, current_app, request
+from nifi_objects.process_group import ProcessGroup
+from controllers.controllers_utils import validated_payload
 
 process_group_bp = Blueprint('process_groups', __name__, url_prefix='/process-groups')
 
@@ -22,7 +24,7 @@ def create_process_group(father_id: str):
 
 @process_group_bp.route('/<father_id>', methods=['PUT'])
 def update_process_group(father_id: str):
-    process_group_json = request.get_json()
     nifi_service = current_app.config['nifi_service']
-    process_group = nifi_service.update_process_group(process_group_json, father_id)
-    return jsonify(process_group.dict())
+    process_group = validated_payload(request, ProcessGroup, 'invalid input on update-process-group')
+    updated_process_group = nifi_service.update_process_group(process_group, father_id)
+    return jsonify(updated_process_group.dict())
