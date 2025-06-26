@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from nifi_services.types import ConnectableType
 class Position(BaseModel):
     x: Optional[float] = None
     y: Optional[float] = None
@@ -9,10 +10,15 @@ class Revision(BaseModel):
     version: Optional[float] = None
 
 class Component(BaseModel):
-        id: Optional[str] = None
-        name: Optional[str] = None
-        comments: Optional[str] = None
-        position: Optional[Position] = None
+    id: Optional[str] = None
+    name: Optional[str] = None
+    comments: Optional[str] = None
+    position: Optional[Position] = None
+
+class Connectable(BaseModel):
+    id: Optional[str] = None
+    type: Optional[ConnectableType] = None
+    name: Optional[str] = None
 
 class NifiObject(BaseModel):
     id: Optional[str] = None
@@ -34,7 +40,14 @@ class OutPutPort(Port):
 class ProcessGroup(NifiObject):
     pass
 
+class Connection(NifiObject):
+    class ConnectionComponent(Component):
+        source: Optional[Connectable] = None
+        destination: Optional[Connectable] = None
+    component: Optional[ConnectionComponent] = None
+
 class ProcessGroupWithPorts(BaseModel):
     process_group: ProcessGroup
     input_port: InputPort
     output_port: OutPutPort
+

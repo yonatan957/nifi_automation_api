@@ -8,3 +8,11 @@ class Request_Type(Enum):
     POST = "POST"
     DELETE = "DELETE"
     PUT = "PUT"
+
+class ConnectableType(Enum):
+    PROCESSOR = "PROCESSOR"
+    REMOTE_INPUT_PORT = "REMOTE_INPUT_PORT"
+    REMOTE_OUTPUT_PORT = "REMOTE_OUTPUT_PORT"
+    INPUT_PORT = "INPUT_PORT"
+    OUTPUT_PORT = "OUTPUT_PORT"
+    FUNNEL = "FUNNEL"
