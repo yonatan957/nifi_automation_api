@@ -1,5 +1,5 @@
 from nifi_services.types import GenericDict, Request_Type
-from nifi_objects.general_objects import Port, InputPort, OutPUtPort
+from nifi_objects.general_objects import Port, InputPort, OutPutPort
 class PortsHandler:
     def __init__(self, nifi_request, validate_response_status):
         self.nifi_request = nifi_request
