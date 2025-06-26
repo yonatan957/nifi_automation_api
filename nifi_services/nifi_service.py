@@ -7,8 +7,9 @@ from nifi_services.handlers.process_group_handler import ProcessGroupHandler
 from nifi_services.handlers.funnel_handler import FunnelHandler
 from nifi_services.handlers.diagnostics_handler import DiagnosticsHandler
 from nifi_services.handlers.ports_handler import PortsHandler
+from nifi_services.handlers.connection_handler import ConnectionHandler
 from error.errors import UnauthorizedError, BadRequestError, APIError, NotFoundError
-from nifi_objects.general_objects import Port, InputPort, OutPutPort, Funnel, ProcessGroup, ProcessGroupWithPorts
+from nifi_objects.general_objects import Port, InputPort, OutPutPort, Funnel, ProcessGroup, ProcessGroupWithPorts, Connection
 class NifiService:
     def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
         self.base_url = base_url.rstrip('/')
@@ -21,6 +22,7 @@ class NifiService:
         self.diagnostics_handler = DiagnosticsHandler(self.nifi_request, self.validate_response_status)
         self.funnel_handler = FunnelHandler(self.nifi_request, self.validate_response_status)
         self.ports_handler = PortsHandler(self.nifi_request, self.validate_response_status)
+        self.connection_handler = ConnectionHandler(self.nifi_request, self.validate_response_status)
 
     def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message: str, status_error = None) -> None:
         if response.status_code not in valid_statuses:
@@ -88,6 +90,9 @@ class NifiService:
 
     def create_port(self, port:Port, father_id:str):
         return self.ports_handler.create_port(port, father_id)
+
+    def create_connection(self, connection: Connection, father_id):
+        return self.connection_handler.create_connection(connection, father_id)
 
     def create_pg_with_ports(self, process_group_with_ports:ProcessGroupWithPorts, father_id):
         new_process_group = self.create_process_group(process_group_with_ports.process_group, father_id)

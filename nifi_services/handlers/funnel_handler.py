@@ -7,7 +7,6 @@ class FunnelHandler:
         self.validate_response_status = validate_response_status
 
     def create_funnel(self,funnel:Funnel, father_id: str) -> Funnel:
-        print(funnel)
         response = self.nifi_request(
             Request_Type.POST,
             f"/process-groups/{father_id}/funnels",
