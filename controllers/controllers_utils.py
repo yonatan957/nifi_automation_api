@@ -7,4 +7,4 @@ def validated_payload(request_to_validate: request, object_to_convert, message="
         return return_object
     except Exception as e:
         logger.error(str(e))
-        raise BadRequestError(message)
+        raise BadRequestError(message + ":" + str(e))
