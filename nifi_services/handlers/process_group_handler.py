@@ -1,10 +1,9 @@
 from nifi_objects.process_group import ProcessGroup
 from nifi_services.types import GenericDict, Request_Type
 
-type = Callable[[int, Optional[int]],str]
 class ProcessGroupHandler:
 
-    def __init__(self, nifi_request:type, validate_response_status):
+    def __init__(self, nifi_request, validate_response_status):
         self.nifi_request = nifi_request
         self.validate_response_status = validate_response_status
 
@@ -14,11 +13,11 @@ class ProcessGroupHandler:
         root_pg = response.json()
         return root_pg["processGroupFlow"]["id"]
 
-    def create_process_group(self, process_group:GenericDict, father_id: str) -> ProcessGroup:
+    def create_process_group(self, process_group:ProcessGroup, father_id: str) -> ProcessGroup:
         response = self.nifi_request(
             Request_Type.POST,
             f"/process-groups/{father_id}/process-groups",
-            json=process_group
+            json=process_group.dict()
         )
         self.validate_response_status(response, {200, 201}, "failed to create process group")
         return ProcessGroup(**response.json())
@@ -28,7 +27,7 @@ class ProcessGroupHandler:
         self.validate_response_status(response, {200}, "failed to get process group")
         return ProcessGroup(**response.json())
 
-    def update_process_group(self, process_group, father_id):
-        response = self.nifi_request(Request_Type.PUT, f'/process-groups/{father_id}', json=process_group)
+    def update_process_group(self, process_group:ProcessGroup, father_id):
+        response = self.nifi_request(Request_Type.PUT, f'/process-groups/{father_id}', json=process_group.dict())
         self.validate_response_status(response, {200}, 'failed to update process group')
         return ProcessGroup(**response.json())
