@@ -1,5 +1,5 @@
 from nifi_services.types import GenericDict, Request_Type
-from nifi_objects.funnel import Funnel
+from nifi_objects.general_objects import Funnel
 class FunnelHandler:
 
     def __init__(self, nifi_request, validate_response_status):

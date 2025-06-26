@@ -8,9 +8,7 @@ from nifi_services.handlers.funnel_handler import FunnelHandler
 from nifi_services.handlers.diagnostics_handler import DiagnosticsHandler
 from nifi_services.handlers.ports_handler import PortsHandler
 from error.errors import UnauthorizedError, BadRequestError, APIError, NotFoundError
-from nifi_objects.process_group import ProcessGroup
-from nifi_objects.funnel import Funnel
-from nifi_objects.ports import Port
+from nifi_objects.general_objects import Port, InputPort, OutPUtPort, Funnel,ProcessGroup
 class NifiService:
     def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
         self.base_url = base_url.rstrip('/')

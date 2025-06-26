@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, current_app, request
 from controllers.controllers_utils import validated_payload
-from nifi_objects.funnel import Funnel
+from nifi_objects.general_objects import Funnel
 funnel_bp = Blueprint('funnels', __name__, url_prefix='/funnels')
 
 @funnel_bp.route("/<father_id>", methods=["POST"])

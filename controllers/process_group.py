@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, current_app, request
-from nifi_objects.process_group import ProcessGroup
+from nifi_objects.general_objects import ProcessGroup
 from nifi_services.nifi_service import NifiService
 from controllers.controllers_utils import validated_payload
 

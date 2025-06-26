@@ -1,4 +1,4 @@
-from nifi_objects.process_group import ProcessGroup
+from nifi_objects.general_objects import ProcessGroup
 from nifi_services.types import GenericDict, Request_Type
 
 class ProcessGroupHandler:
@@ -24,10 +24,10 @@ class ProcessGroupHandler:
 
     def get_process_group(self, pg_id: str) -> ProcessGroup:
         response = self.nifi_request(Request_Type.GET, f"/process-groups/{pg_id}")
-        self.validate_response_status(response, {200}, "failed to get process group")
+        self.validate_response_status(response, {200, 201}, "failed to get process group")
         return response.json()
 
     def update_process_group(self, process_group:ProcessGroup, father_id):
         response = self.nifi_request(Request_Type.PUT, f'/process-groups/{father_id}', json=process_group.dict())
-        self.validate_response_status(response, {200}, 'failed to update process group')
+        self.validate_response_status(response, {200, 201}, 'failed to update process group')
         return response.json()
