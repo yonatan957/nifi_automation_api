@@ -9,6 +9,7 @@ from nifi_services.handlers.diagnostics_handler import DiagnosticsHandler
 from nifi_services.handlers.ports_handler import PortsHandler
 from error.errors import UnauthorizedError, BadRequestError, APIError, NotFoundError
 from nifi_objects.process_group import ProcessGroup
+from nifi_objects.funnel import Funnel
 
 class NifiService:
     def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
@@ -84,8 +85,8 @@ class NifiService:
     def get_process_group(self, pg_id:str):
         return self.process_group_handler.get_process_group(pg_id)
 
-    def create_funnel(self, process_group_id:str, father_id):
-        return self.funnel_handler.create_funnel(process_group_id, father_id)
+    def create_funnel(self, funnel:Funnel, father_id):
+        return self.funnel_handler.create_funnel(funnel, father_id)
 
     def create_input_port(self, father_id:str, input_port):
         return self.ports_handler.create_input_port(father_id, input_port)
