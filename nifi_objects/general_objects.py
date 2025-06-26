@@ -1,9 +1,9 @@
 from pydantic import BaseModel
-
+from typing import Optional
 class Position(BaseModel):
-    x: float
-    y: float
+    x: Optional[float]
+    y: Optional[float]
 
 
 class Revision(BaseModel):
-    version: int
+    version: Optional[float]
