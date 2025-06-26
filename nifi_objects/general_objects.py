@@ -28,8 +28,13 @@ class Port(NifiObject):
 class InputPort(Port):
     pass
 
-class OutPUtPort(Port):
+class OutPutPort(Port):
     pass
 
 class ProcessGroup(NifiObject):
     pass
+
+class ProcessGroupWithPorts(BaseModel):
+    process_group: ProcessGroup
+    input_port: InputPort
+    output_port: OutPutPort
