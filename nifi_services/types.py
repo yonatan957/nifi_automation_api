@@ -9,10 +9,14 @@ class Request_Type(Enum):
     DELETE = "DELETE"
     PUT = "PUT"
 
-class ConnectableType(Enum):
+class ConnectableType(str, Enum):
     PROCESSOR = "PROCESSOR"
     REMOTE_INPUT_PORT = "REMOTE_INPUT_PORT"
     REMOTE_OUTPUT_PORT = "REMOTE_OUTPUT_PORT"
     INPUT_PORT = "INPUT_PORT"
     OUTPUT_PORT = "OUTPUT_PORT"
     FUNNEL = "FUNNEL"
+
+class PortType(str, Enum):
+    INPUT_PORT = "INPUT-PORT"
+    OUTPUT_PORT = "OUTPUT-PORT"
