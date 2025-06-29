@@ -31,3 +31,8 @@ class ProcessGroupHandler:
         response = self.nifi_request(Request_Type.PUT, f'/process-groups/{father_id}', json=process_group.dict())
         self.validate_response_status(response, {200, 201}, 'failed to update process group')
         return response.json()
+
+    def get_all_process_groups(self, father_id):
+        response = self.nifi_request(Request_Type.GET, f'/process-groups/{father_id}/process-groups')
+        self.validate_response_status(response, {200,201}, 'failed to get all process groups')
+        return response.json()
