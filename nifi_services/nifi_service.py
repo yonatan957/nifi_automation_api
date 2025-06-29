@@ -10,7 +10,7 @@ from nifi_services.handlers.ports_handler import PortsHandler
 from nifi_services.handlers.remote_process_group_handler import RemoteProcessGroupHandler
 from nifi_services.handlers.connection_handler import ConnectionHandler
 from error.errors import UnauthorizedError, BadRequestError, APIError, NotFoundError
-from nifi_objects.general_objects import Port, InputPort, OutPutPort, Funnel, ProcessGroup, ProcessGroupWithPorts, Connection
+from nifi_objects.general_objects import Port, InputPort, OutPutPort, Funnel, ProcessGroup, ProcessGroupWithPorts, Connection, RemoteProcessGroup
 class NifiService:
     def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
         self.base_url = base_url.rstrip('/')
