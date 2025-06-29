@@ -19,6 +19,7 @@ class Connectable(BaseModel):
     id: Optional[str] = None
     type: Optional[ConnectableType] = None
     name: Optional[str] = None
+    groupId: Optional[str] = None
 
 class NifiObject(BaseModel):
     id: Optional[str] = None
@@ -41,19 +42,16 @@ class ProcessGroup(NifiObject):
     pass
 
 class RemoteProcessGroup(NifiObject):
+    class RPG_Component(Component):
+        targetUri: Optional[str] = None
+    component: RPG_Component
+    uri: Optional[str] = None
     pass
 
 class Connection(NifiObject):
     class ConnectionComponent(Component):
         source: Optional[Connectable] = None
         destination: Optional[Connectable] = None
-
-        selectedRelationships: List[str] = ["success"]
-        backPressureObjectThreshold: int = 10000
-        backPressureDataSizeThreshold: str = "1 GB"
-        flowFileExpiration: str = "0 sec"
-        bends: List = []
-        prioritizers: List[str] = []
 
     component: Optional[ConnectionComponent] = None
 
