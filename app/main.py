@@ -6,6 +6,8 @@ from error.error_handler import register_error_handlers
 from controllers.process_group import process_group_bp
 from controllers.funnel import funnel_bp
 from controllers.port import port_bp
+from controllers.connection import connection_bp
+
 app = Flask(__name__)
 register_error_handlers(app)
 app.config["nifi_service"] = NifiService(NIFI_API_URL, NIFI_USER_NAME, NIFI_PASSWORD, SHOULD_VERIFY_SSL)
@@ -13,6 +15,7 @@ app.config["nifi_service"] = NifiService(NIFI_API_URL, NIFI_USER_NAME, NIFI_PASS
 app.register_blueprint(process_group_bp)
 app.register_blueprint(funnel_bp)
 app.register_blueprint(port_bp)
+app.register_blueprint(connection_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)
