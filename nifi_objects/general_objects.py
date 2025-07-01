@@ -41,6 +41,9 @@ class OutPutPort(Port):
 class ProcessGroup(NifiObject):
     pass
 
+class ParameterContext(NifiObject):
+    pass
+
 class RemoteProcessGroup(NifiObject):
     class RPG_Component(Component):
         targetUri: Optional[str] = None
