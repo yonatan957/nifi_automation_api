@@ -38,9 +38,13 @@ class InputPort(Port):
 class OutPutPort(Port):
     pass
 
-class ProcessGroup(NifiObject):
-    pass
+class ParameterContextReference(BaseModel):
+    id: Optional[str] = None
 
+class ProcessGroup(NifiObject):
+    class Component(Component):
+        parameterContext: Optional[ParameterContextReference] = None
+    component: Optional[Component] = None
 
 class ParameterDto(BaseModel):
     name: Optional[str] = None
