@@ -55,7 +55,8 @@ class Parameter(BaseModel):
 class ParameterContext(NifiObject):
     class Component(Component):
         parameters: Optional[List[Parameter]] = None
-    component = Optional[Component] = None
+        id: Optional[str] = None
+    component: Optional[Component] = None
 
 class RemoteProcessGroup(NifiObject):
     class RPG_Component(Component):
