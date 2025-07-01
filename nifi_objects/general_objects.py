@@ -5,7 +5,6 @@ class Position(BaseModel):
     x: Optional[float] = None
     y: Optional[float] = None
 
-
 class Revision(BaseModel):
     version: Optional[float] = None
 
@@ -25,58 +24,3 @@ class NifiObject(BaseModel):
     id: Optional[str] = None
     component: Optional[Component] = None
     revision: Optional[Revision] = None
-
-class Funnel(NifiObject):
-    pass
-
-class Port(NifiObject):
-    pass
-
-class InputPort(Port):
-    pass
-
-class OutPutPort(Port):
-    pass
-
-class ParameterContextReference(BaseModel):
-    id: Optional[str] = None
-
-class ProcessGroup(NifiObject):
-    class Component(Component):
-        parameterContext: Optional[ParameterContextReference] = None
-    component: Optional[Component] = None
-
-class ParameterDto(BaseModel):
-    name: Optional[str] = None
-    description: Optional[str] = None
-    sensitive: Optional[bool] = None
-    value: Optional[str] = None
-
-class Parameter(BaseModel):
-    canWrite: Optional[bool] = None
-    parameter: Optional[ParameterDto] = None
-
-class ParameterContext(NifiObject):
-    class Component(Component):
-        parameters: Optional[List[Parameter]] = None
-        id: Optional[str] = None
-    component: Optional[Component] = None
-
-class RemoteProcessGroup(NifiObject):
-    class RPG_Component(Component):
-        targetUri: Optional[str] = None
-    component: RPG_Component
-    uri: Optional[str] = None
-    pass
-
-class Connection(NifiObject):
-    class ConnectionComponent(Component):
-        source: Optional[Connectable] = None
-        destination: Optional[Connectable] = None
-
-    component: Optional[ConnectionComponent] = None
-
-class ProcessGroupWithPorts(BaseModel):
-    process_group: ProcessGroup
-    input_port: InputPort
-    output_port: OutPutPort
