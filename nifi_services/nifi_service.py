@@ -108,6 +108,8 @@ class NifiService:
     def create_parameter_context(self, parameter_context_group:ParameterContext):
         return self.parameter_context_handler.create_parameter_context(parameter_context_group)
 
+    def update_parameter_context(self, context_id:str, parameter_context:ParameterContext):
+        return self.parameter_context_handler.update_parameter_context(context_id, parameter_context)
     def create_remote_process_group(self, remote_pg:RemoteProcessGroup, father_id:str):
         return self.remote_process_group_handler.create_remote_process_group(remote_pg, father_id)
 
