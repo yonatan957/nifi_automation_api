@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, current_app, request
 from controllers.controllers_utils import validated_payload
-from nifi_objects.general_objects import ParameterContext
+from nifi_objects.parameter_context import ParameterContext
 from nifi_services.nifi_service import NifiService
 
 parameter_context_bp = Blueprint('parameter-contexts', __name__, url_prefix='/parameter-contexts')

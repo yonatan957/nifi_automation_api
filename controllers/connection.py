@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, current_app, request
 from controllers.controllers_utils import validated_payload
-from nifi_objects.general_objects import Connection
+from nifi_objects.connection import Connection
 
 connection_bp = Blueprint('connections', __name__, url_prefix='/connections')
 

@@ -1,5 +1,5 @@
 from nifi_services.types import GenericDict, Request_Type
-from nifi_objects.general_objects import Connection
+from nifi_objects.connection import Connection
 
 class ConnectionHandler:
 

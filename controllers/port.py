@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, current_app, request
 from controllers.controllers_utils import validated_payload
-from nifi_objects.general_objects import Port, InputPort, OutPutPort
+from nifi_objects.port import Port, InputPort, OutPutPort
 from nifi_services.types import PortType
 port_bp = Blueprint('ports', __name__, url_prefix='/ports')
 

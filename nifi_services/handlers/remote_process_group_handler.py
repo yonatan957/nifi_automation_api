@@ -1,4 +1,4 @@
-from nifi_objects.general_objects import RemoteProcessGroup
+from nifi_objects.remote_process_groups import RemoteProcessGroup
 from nifi_services.types import Request_Type
 
 class RemoteProcessGroupHandler:

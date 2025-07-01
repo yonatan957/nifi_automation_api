@@ -1,4 +1,4 @@
-from nifi_objects.general_objects import ProcessGroup
+from nifi_objects.process_group import ProcessGroup
 from nifi_services.types import GenericDict, Request_Type
 
 class ProcessGroupHandler:
