@@ -8,7 +8,7 @@ class ParameterContextHandler:
         self.nifi_request = nifi_request
         self.validate_response_status = validate_response_status
 
-    def create_parameter_context(self, parameter_context:ParameterContext, father_id: str):
+    def create_parameter_context(self, parameter_context:ParameterContext):
         response = self.nifi_request(
             Request_Type.POST,
             f'/parameter-context',

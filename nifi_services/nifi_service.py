@@ -3,12 +3,14 @@ from typing import Set, Optional
 from utils.logger import logger
 from requests import Response
 from nifi_services.types import Request_Type, GenericDict, PortType
+from nifi_objects.general_objects import ParameterContext
 from nifi_services.handlers.process_group_handler import ProcessGroupHandler
 from nifi_services.handlers.funnel_handler import FunnelHandler
 from nifi_services.handlers.diagnostics_handler import DiagnosticsHandler
 from nifi_services.handlers.ports_handler import PortsHandler
 from nifi_services.handlers.remote_process_group_handler import RemoteProcessGroupHandler
 from nifi_services.handlers.connection_handler import ConnectionHandler
+from nifi_services.handlers.parameter_context_handler import ParameterContextHandler
 from error.errors import UnauthorizedError, BadRequestError, APIError, NotFoundError
 from nifi_objects.general_objects import Port, InputPort, OutPutPort, Funnel, ProcessGroup, ProcessGroupWithPorts, Connection, RemoteProcessGroup
 class NifiService:
@@ -25,6 +27,7 @@ class NifiService:
         self.ports_handler = PortsHandler(self.nifi_request, self.validate_response_status)
         self.connection_handler = ConnectionHandler(self.nifi_request, self.validate_response_status)
         self.remote_process_group_handler = RemoteProcessGroupHandler(self.nifi_request, self.validate_response_status)
+        self.parameter_context_handler = ParameterContextHandler(self.nifi_request, self.validate_response_status)
 
     def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message: str, status_error = None) -> None:
         if response.status_code not in valid_statuses:
@@ -101,6 +104,9 @@ class NifiService:
 
     def create_connection(self, connection: Connection, father_id):
         return self.connection_handler.create_connection(connection, father_id)
+
+    def create_parameter_context(self, parameter_context_group:ParameterContext):
+        return self.parameter_context_handler.create_parameter_context(parameter_context_group)
 
     def create_remote_process_group(self, remote_pg:RemoteProcessGroup, father_id:str):
         return self.remote_process_group_handler.create_remote_process_group(remote_pg, father_id)
