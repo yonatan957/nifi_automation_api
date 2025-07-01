@@ -41,8 +41,21 @@ class OutPutPort(Port):
 class ProcessGroup(NifiObject):
     pass
 
+
+class ParameterDto(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    sensitive: Optional[bool] = None
+    value: Optional[str] = None
+
+class Parameter(BaseModel):
+    canWrite: Optional[bool] = None
+    parameter: Optional[ParameterDto] = None
+
 class ParameterContext(NifiObject):
-    pass
+    class Component(Component):
+        parameters: Optional[List[Parameter]] = None
+    component = Optional[Component] = None
 
 class RemoteProcessGroup(NifiObject):
     class RPG_Component(Component):
