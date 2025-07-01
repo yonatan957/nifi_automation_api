@@ -11,7 +11,7 @@ class ParameterContextHandler:
     def create_parameter_context(self, parameter_context:ParameterContext):
         response = self.nifi_request(
             Request_Type.POST,
-            f'/parameter-context',
+            f'/parameter-contexts',
             json=parameter_context.dict()
         )
         self.validate_response_status(response, {200, 201}, 'failed to create parameter context')
