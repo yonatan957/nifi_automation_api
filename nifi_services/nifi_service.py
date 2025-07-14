@@ -17,6 +17,7 @@ from nifi_objects.funnel import Funnel
 from nifi_objects.process_group import ProcessGroup, ProcessGroupWithPorts
 from nifi_objects.connection import Connection
 from nifi_objects.remote_process_groups import RemoteProcessGroup
+from nifi_objects.parameter_context import ParameterContext
 
 class NifiService:
     def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
@@ -90,6 +91,8 @@ class NifiService:
         return self.process_group_handler.create_process_group(process_group, father_id)
 
     def update_process_group(self, process_group:ProcessGroup, father_id):
+        original_process_group = self.get_process_group(process_group.id)
+        process_group.revision = original_process_group.revision
         return self.process_group_handler.update_process_group(process_group, father_id)
 
     def get_process_group(self, pg_id:str):
@@ -114,6 +117,8 @@ class NifiService:
         return self.parameter_context_handler.create_parameter_context(parameter_context_group)
 
     def update_parameter_context(self, context_id:str, parameter_context:ParameterContext):
+        original_parameter_context = self.nifi_request(Request_Type.GET, f'/parameter-contexts/{context_id}').json()
+        parameter_context.revision.version = original_parameter_context.revision.version
         return self.parameter_context_handler.update_parameter_context(context_id, parameter_context)
 
     def create_remote_process_group(self, remote_pg:RemoteProcessGroup, father_id:str):
