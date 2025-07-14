@@ -24,4 +24,4 @@ class NifiRegistryService:
                      ) -> requests.Response:
         res = requests.request(method=method.value, url=f"{self.base_url}{url}",
                                json=json, data=data, params=params)
-        return res
+        return resע
