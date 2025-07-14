@@ -11,6 +11,7 @@ from controllers.connection import connection_bp
 
 app = Flask(__name__)
 register_error_handlers(app)
+
 app.config["nifi_service"] = NifiService(NIFI_API_URL, NIFI_USER_NAME, NIFI_PASSWORD, SHOULD_VERIFY_SSL)
 
 app.register_blueprint(process_group_bp)
