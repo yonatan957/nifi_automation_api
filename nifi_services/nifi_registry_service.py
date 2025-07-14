@@ -1,6 +1,6 @@
 class NifiRegistryService:
 
-    def __init__(self, base_url: str, username: str, password: str, verify_ssl: bool = True):
+    def __init__(self, base_url: str):
         self.base_url = base_url.rstrip('/')
 
     def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message: str, status_error = None) -> None:
