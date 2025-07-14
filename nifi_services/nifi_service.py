@@ -4,13 +4,13 @@ from utils.logger import logger
 from requests import Response
 from nifi_services.types import Request_Type, GenericDict, PortType
 from nifi_objects.general_objects import ParameterContext
-from nifi_services.handlers.process_group_handler import ProcessGroupHandler
-from nifi_services.handlers.funnel_handler import FunnelHandler
-from nifi_services.handlers.diagnostics_handler import DiagnosticsHandler
-from nifi_services.handlers.ports_handler import PortsHandler
-from nifi_services.handlers.remote_process_group_handler import RemoteProcessGroupHandler
-from nifi_services.handlers.connection_handler import ConnectionHandler
-from nifi_services.handlers.parameter_context_handler import ParameterContextHandler
+from nifi_services.nifi_handlers.process_group_handler import ProcessGroupHandler
+from nifi_services.nifi_handlers.funnel_handler import FunnelHandler
+from nifi_services.nifi_handlers.diagnostics_handler import DiagnosticsHandler
+from nifi_services.nifi_handlers.ports_handler import PortsHandler
+from nifi_services.nifi_handlers.remote_process_group_handler import RemoteProcessGroupHandler
+from nifi_services.nifi_handlers.connection_handler import ConnectionHandler
+from nifi_services.nifi_handlers.parameter_context_handler import ParameterContextHandler
 from error.errors import UnauthorizedError, BadRequestError, APIError, NotFoundError
 from nifi_objects.port import Port, InputPort, OutPutPort
 from nifi_objects.funnel import Funnel

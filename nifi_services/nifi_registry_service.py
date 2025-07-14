@@ -22,6 +22,6 @@ class NifiRegistryService:
     def nifi_request(self, method: Request_Type, url: str = "", *, json: Optional[GenericDict] = None,
                      data: Optional[GenericDict] = None, params: Optional[GenericDict] = None, retry_count=1
                      ) -> requests.Response:
-        res = requests.request(method=method.value, url=f"{self.base_url}{url}", verify=self.verify_ssl,
+        res = requests.request(method=method.value, url=f"{self.base_url}{url}",
                                json=json, data=data, params=params)
         return res
