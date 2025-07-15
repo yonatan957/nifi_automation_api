@@ -1,5 +1,6 @@
 from nifi_services.nifi_service import NifiService
 from nifi_services.nifi_registry_service import NifiRegistryService
+from nifi_services.version_control_service import VersionControlService
 from flask import Flask
 from utils.logger import logger
 from utils.consts import NIFI_API_URL, NIFI_USER_NAME, SHOULD_VERIFY_SSL, NIFI_PASSWORD, NIFI_REGISTRY_URL
@@ -13,8 +14,13 @@ from controllers.connection import connection_bp
 app = Flask(__name__)
 register_error_handlers(app)
 
-app.config["nifi_service"] = NifiService(NIFI_API_URL, NIFI_USER_NAME, NIFI_PASSWORD, SHOULD_VERIFY_SSL)
-app.config["nifi_registry_service"] = NifiRegistryService(NIFI_REGISTRY_URL)
+nifi_service = NifiService(NIFI_API_URL, NIFI_USER_NAME, NIFI_PASSWORD, SHOULD_VERIFY_SSL)
+nifi_registry_service = NifiRegistryService(NIFI_REGISTRY_URL)
+version_control_service = VersionControlService(nifi_service, nifi_registry_service)
+app.config["nifi_service"] = nifi_service
+app.config["nifi_registry_service"] = nifi_registry_service
+app.config["version_control_service"] = version_control_service
+
 app.register_blueprint(process_group_bp)
 app.register_blueprint(funnel_bp)
 app.register_blueprint(port_bp)
