@@ -5,9 +5,17 @@ from pydantic import BaseModel
 class ParameterContextReference(BaseModel):
     id: Optional[str] = None
 
+class VersionControlInformation(BaseModel):
+    registryId: Optional[str] = None
+    bucketName: Optional[str] = None
+    bucketId: Optional[str] = None
+    flowId: Optional[str] = None
+    version: Optional[int] = None
+
 class ProcessGroup(NifiObject):
     class Component(Component):
         parameterContext: Optional[ParameterContextReference] = None
+        versionControlInformation: Optional[VersionControlInformation] = None
     component: Optional[Component] = None
 
 
