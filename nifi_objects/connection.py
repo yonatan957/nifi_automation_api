@@ -1,4 +1,5 @@
 from nifi_objects.general_objects import NifiObject, Component, Connectable
+from typing import Optional, List
 
 class Connection(NifiObject):
     class ConnectionComponent(Component):

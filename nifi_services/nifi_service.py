@@ -3,7 +3,7 @@ from typing import Set, Optional
 from utils.logger import logger
 from requests import Response
 from nifi_services.types import Request_Type, GenericDict, PortType
-from nifi_objects.general_objects import ParameterContext
+from nifi_objects.parameter_context import ParameterContext
 from nifi_services.nifi_handlers.process_group_handler import ProcessGroupHandler
 from nifi_services.nifi_handlers.funnel_handler import FunnelHandler
 from nifi_services.nifi_handlers.diagnostics_handler import DiagnosticsHandler

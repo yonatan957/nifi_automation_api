@@ -9,5 +9,5 @@ class VersionControlHandler:
 
     def get_version_control(self):
         response = self.nifi_registry_request(Request_Type.GET, f'/buckets/{BUCKET_ID}/flows/{FLOW_IDENTIFIER}')
-        validated_response = self.validate_response_status(response, {200,201}, 'error get flow')
-        return validated_response
+        self.validate_response_status(response, {200,201}, 'error get flow')
+        return response.json()

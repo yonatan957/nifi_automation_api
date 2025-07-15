@@ -1,4 +1,5 @@
-from general_objects import  NifiObject, Component
+from nifi_objects.general_objects import  NifiObject, Component
+from nifi_objects.port import InputPort, OutPutPort
 from typing import Optional, List
 from pydantic import BaseModel
 

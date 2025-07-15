@@ -1,4 +1,4 @@
-from nifi_objects import ParameterContext
+from nifi_objects.parameter_context import ParameterContext
 from nifi_services.types import GenericDict, Request_Type
 
 

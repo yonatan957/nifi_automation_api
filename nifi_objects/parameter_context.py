@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from general_objects import Component, NifiObject
+from typing import Optional, List
+from nifi_objects.general_objects import Component, NifiObject
 
 class ParameterDto(BaseModel):
     name: Optional[str] = None

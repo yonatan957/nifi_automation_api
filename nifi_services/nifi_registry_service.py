@@ -1,5 +1,10 @@
 from nifi_services.types import Request_Type
+import requests
 from nifi_services.nifi_registry_handlers.version_control_handler import VersionControlHandler
+from requests import Response
+from typing import Set, Optional
+from nifi_services.types import Request_Type, GenericDict, PortType
+
 class NifiRegistryService:
 
     def __init__(self, base_url: str):

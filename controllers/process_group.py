@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, current_app, request
-from nifi_objects.process_group import ProcessGroup, ProcessGroupWithPorts, RemoteProcessGroup
+from nifi_objects.process_group import ProcessGroup, ProcessGroupWithPorts
+from nifi_objects.remote_process_groups import RemoteProcessGroup
 from nifi_services.nifi_service import NifiService
 from controllers.controllers_utils import validated_payload
 

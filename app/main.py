@@ -10,6 +10,7 @@ from controllers.parameter_context import parameter_context_bp
 from controllers.funnel import funnel_bp
 from controllers.port import port_bp
 from controllers.connection import connection_bp
+from controllers.rabbit_connection import rabbit_bp
 
 app = Flask(__name__)
 register_error_handlers(app)
@@ -26,6 +27,7 @@ app.register_blueprint(funnel_bp)
 app.register_blueprint(port_bp)
 app.register_blueprint(connection_bp)
 app.register_blueprint(parameter_context_bp)
+app.register_blueprint(rabbit_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)
