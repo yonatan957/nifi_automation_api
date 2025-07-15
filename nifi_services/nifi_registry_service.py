@@ -1,7 +1,11 @@
+from nifi_services.types import Request_Type
+from nifi_services.nifi_registry_handlers.version_control_handler import VersionControlHandler
 class NifiRegistryService:
 
     def __init__(self, base_url: str):
         self.base_url = base_url.rstrip('/')
+        self.version_control_handler = VersionControlHandler(self.nifi_registry_request, self.validate_response_status)
+
 
     def validate_response_status(self, response: Response, valid_statuses: Set[int], error_message: str, status_error = None) -> None:
         if response.status_code not in valid_statuses:
@@ -19,9 +23,12 @@ class NifiRegistryService:
             else:
                 raise APIError(full_message, status_code=response.status_code)
 
-    def nifi_request(self, method: Request_Type, url: str = "", *, json: Optional[GenericDict] = None,
+    def nifi_registry_request(self, method: Request_Type, url: str = "", *, json: Optional[GenericDict] = None,
                      data: Optional[GenericDict] = None, params: Optional[GenericDict] = None, retry_count=1
                      ) -> requests.Response:
-        res = requests.request(method=method.value, url=f"{self.base_url}{url}",
+        response = requests.request(method=method.value, url=f"{self.base_url}{url}",
                                json=json, data=data, params=params)
-        return resע
+        return response
+
+    def get_version_control(self):
+        return self.version_control_handler.get_version_control()
