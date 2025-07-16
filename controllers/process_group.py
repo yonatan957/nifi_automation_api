@@ -37,11 +37,11 @@ def create_process_group_with_ports(father_id: str):
     new_process_group_with_ports = nifi_service.create_pg_with_ports(process_group_with_ports, father_id)
     return jsonify(new_process_group_with_ports)
 
-@process_group_bp.route('/<father_id>', methods=['PUT'])
-def update_process_group(father_id: str):
+@process_group_bp.route('', methods=['PUT'])
+def update_process_group():
     nifi_service:NifiService = current_app.config['nifi_service']
     process_group = validated_payload(request, ProcessGroup, 'invalid input on update-process-group')
-    updated_process_group = nifi_service.update_process_group(process_group, father_id)
+    updated_process_group = nifi_service.update_process_group(process_group)
     return jsonify(updated_process_group)
 
 @process_group_bp.route('/<father_id>/connect', methods=['POST'])

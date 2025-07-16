@@ -90,10 +90,10 @@ class NifiService:
     def create_process_group(self, process_group:ProcessGroup, father_id:str):
         return self.process_group_handler.create_process_group(process_group, father_id)
 
-    def update_process_group(self, process_group:ProcessGroup, father_id):
+    def update_process_group(self, process_group:ProcessGroup):
         original_process_group = self.get_process_group(process_group.id)
-        process_group.revision = original_process_group.revision
-        return self.process_group_handler.update_process_group(process_group, father_id)
+        process_group.revision.version = original_process_group["revision"]["version"]
+        return self.process_group_handler.update_process_group(process_group)
 
     def get_process_group(self, pg_id:str):
         return self.process_group_handler.get_process_group(pg_id)

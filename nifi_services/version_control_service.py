@@ -26,22 +26,35 @@ class VersionControlService:
 
         process_group = self.create_process_group(new_parameter_context, version_control)
         new_process_group = self.nifi_service.create_process_group(process_group, root_id)
-
-        return new_process_group
+        small_new_process_group = self.nifi_service.get_process_group(new_process_group['component']['id'])
+        small_new_process_group['parameterContext'] = small_new_process_group["component"]["parameterContext"] = {
+            "id": new_parameter_context['id'],
+            "name": new_parameter_context["component"]['name'],
+            'component': {
+                "id": new_parameter_context["id"]
+            }
+        }
+        update_pg = ProcessGroup(**small_new_process_group)
+        result = self.nifi_service.update_process_group(update_pg)
+        return result
 
     def create_process_group(self, parameter_context, version_control):
         return ProcessGroup(**{
             'revision': {
                 'version' : version_control['revision']['version']
             },
+            'parameterContext': {
+                'id': parameter_context['id'],
+                'component': {
+                    'id': parameter_context['id'],
+                    'name': parameter_context['component']['name']
+                }
+            },
             'component':{
                 'name': 'rabbit_trail',
                 'position': {
                     'x': 250,
                     'y': 250
-                },
-                'parameterContext':{
-                    'id': parameter_context['id']
                 },
                 'versionControlInformation': {
                     'registryId': REGISTRY_ID,

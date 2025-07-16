@@ -22,13 +22,13 @@ class ProcessGroupHandler:
         self.validate_response_status(response, {200, 201}, "failed to create process group")
         return response.json()
 
-    def get_process_group(self, pg_id: str) -> ProcessGroup:
+    def get_process_group(self, pg_id: str):
         response = self.nifi_request(Request_Type.GET, f"/process-groups/{pg_id}")
         self.validate_response_status(response, {200, 201}, "failed to get process group")
         return response.json()
 
-    def update_process_group(self, process_group:ProcessGroup, father_id):
-        response = self.nifi_request(Request_Type.PUT, f'/process-groups/{father_id}', json=process_group.dict())
+    def update_process_group(self, process_group:ProcessGroup):
+        response = self.nifi_request(Request_Type.PUT, f'/process-groups/{process_group.id}', json=process_group.dict())
         self.validate_response_status(response, {200, 201}, 'failed to update process group')
         return response.json()
 

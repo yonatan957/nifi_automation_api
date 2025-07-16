@@ -4,7 +4,14 @@ from typing import Optional, List
 from pydantic import BaseModel
 
 class ParameterContextReference(BaseModel):
+    class Permissions(BaseModel):
+        canRead: Optional[bool] = True,
+        canWrite: Optional[bool] = True
+    class Component(BaseModel):
+        id: Optional[str] = None
+        name: Optional[str] = None
     id: Optional[str] = None
+    component: Component
 
 class VersionControlInformation(BaseModel):
     registryId: Optional[str] = None
@@ -15,10 +22,10 @@ class VersionControlInformation(BaseModel):
 
 class ProcessGroup(NifiObject):
     class Component(Component):
-        parameterContext: Optional[ParameterContextReference] = None
         versionControlInformation: Optional[VersionControlInformation] = None
+        parameterContext: Optional[ParameterContextReference] = None
     component: Optional[Component] = None
-
+    parameterContext: Optional[ParameterContextReference] = None
 
 class ProcessGroupWithPorts(BaseModel):
     process_group: ProcessGroup
